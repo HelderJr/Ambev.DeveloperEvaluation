@@ -10,6 +10,9 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public string? Description { get; set; }
         public decimal Price { get; set; }
 
+        public IEnumerable<SaleProduct> SaleProducts { get; set; } = new List<SaleProduct>();
+
+
         public ValidationResultDetail Validate()
         {
             var validator = new ProductValidator();

@@ -9,6 +9,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public string? Name { get; set; }
         public string Email { get; set; } = string.Empty;
 
+        public IEnumerable<Sale> Sales { get; set; } = new List<Sale>();
+
         public ValidationResultDetail Validate()
         {
             var validator = new CustomerValidator();
