@@ -32,7 +32,7 @@ public class YourDbContextFactory : IDesignTimeDbContextFactory<DefaultContext>
         var builder = new DbContextOptionsBuilder<DefaultContext>();
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        builder.UseNpgsql(
+        builder.UseSqlServer(
                connectionString,
                b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.WebApi")
         );
