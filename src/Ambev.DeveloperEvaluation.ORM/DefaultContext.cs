@@ -11,6 +11,7 @@ public class DefaultContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<SaleProduct> SaleProducts { get; set; }
 
 
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
@@ -20,6 +21,25 @@ public class DefaultContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        modelBuilder.Entity<Sale>()
+            .HasOne(s => s.Customer) 
+            .WithMany(c => c.Sales)
+            .HasForeignKey(s => s.CustomerId);
+
+        modelBuilder.Entity<SaleProduct>()
+            .HasKey(sp => new { sp.SaleId, sp.ProductId }); 
+
+        modelBuilder.Entity<SaleProduct>()
+            .HasOne(sp => sp.Sale)
+            .WithMany(s => s.SaleProducts)
+            .HasForeignKey(sp => sp.SaleId);
+
+        modelBuilder.Entity<SaleProduct>()
+            .HasOne(sp => sp.Product)
+            .WithMany(p => p.SaleProducts)
+            .HasForeignKey(sp => sp.ProductId);
+
         base.OnModelCreating(modelBuilder);
     }
 }
