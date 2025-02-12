@@ -13,7 +13,6 @@ Tecnologias Utilizadas:
 - RabbitMQ
 
 Configuração do Ambiente:
-
 1. Clone o repositório: https://github.com/HelderJr/Ambev.DeveloperEvaluation
 2. Instale as dependências: dotnet restore
 3. Execute as migrations para criar o banco de dados: dotnet ef database update
@@ -33,6 +32,7 @@ Este projeto implementa um sistema de mensageria utilizando MassTransit para pub
 
 Evento: SaleCreatedEvent
 
-O evento SaleCreatedEvent é disparado sempre que uma nova venda é criada no sistema. Ele é publicado na exchange padrão do MassTransit e pode ser consumido por qualquer serviço registrado para escutá-lo.
+O evento SaleCreatedEvent é disparado sempre que uma nova venda é criada no sistema. 
+Ele é publicado na exchange padrão do MassTransit e pode ser consumido por qualquer serviço registrado para escutá-lo.
 
      
