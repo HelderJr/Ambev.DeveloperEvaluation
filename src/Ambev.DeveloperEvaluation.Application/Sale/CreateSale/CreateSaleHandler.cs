@@ -1,8 +1,10 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Events;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.ORM;
 using AutoMapper;
 using FluentValidation;
+using MassTransit;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sale.CreateSale
@@ -13,16 +15,20 @@ namespace Ambev.DeveloperEvaluation.Application.Sale.CreateSale
         private readonly ISaleRepository _saleRepository;
         private readonly ISaleProductRepository _saleProductRepository;
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
+
 
         public CreateSaleHandler(DefaultContext context,
                                  ISaleRepository saleRepository, 
                                  ISaleProductRepository saleProductRepository,
-                                 IMapper mapper)
+                                 IMapper mapper,
+                                 IPublishEndpoint publishEndpoint)
         {
             _context = context;
             _saleRepository = saleRepository;
             _saleProductRepository = saleProductRepository;
             _mapper = mapper;
+            _publishEndpoint = publishEndpoint;
         }
         public async Task<CreateSaleResult> Handle(CreateSaleCommand command, CancellationToken cancellationToken)
         {
@@ -48,6 +54,8 @@ namespace Ambev.DeveloperEvaluation.Application.Sale.CreateSale
                 var result = _mapper.Map<CreateSaleResult>(createdSale);
 
                 await transaction.CommitAsync(cancellationToken);
+
+                await _publishEndpoint.Publish(new SaleCreatedEvent { SaleId = sale.Id }, cancellationToken);
 
                 return result;
             }
