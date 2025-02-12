@@ -9,6 +9,8 @@ Tecnologias Utilizadas:
 - Entity Framework Core
 - ASP.NET Core
 - Swagger (OpenAPI)
+- MassTransit
+- RabbitMQ
 
 Configuração do Ambiente:
 
@@ -25,4 +27,12 @@ Configuração do Ambiente:
 A aplicação estará disponível em:
   Backend: http://localhost:7181
   Swagger UI: http://localhost:7181/swagger
+
+Projeto de Mensageria com MassTransit e RabbitMQ
+Este projeto implementa um sistema de mensageria utilizando MassTransit para publicar e consumir eventos no RabbitMQ.
+
+Evento: SaleCreatedEvent
+
+O evento SaleCreatedEvent é disparado sempre que uma nova venda é criada no sistema. Ele é publicado na exchange padrão do MassTransit e pode ser consumido por qualquer serviço registrado para escutá-lo.
+
      
